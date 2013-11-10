@@ -5,10 +5,12 @@
   :description "Describe notenwart here"
   :author "Your Name <your.name@example.com>"
   :license "Specify license here"
-  :depends-on (#:HUNCHENTOOT #:WM-SQLITE)
+  :depends-on (#:HUNCHENTOOT #:WM-SQLITE #:cl-who)
   :components ((:file "package")
+	       (:file "notenwart")
 	       (:file "schemas")
-           (:file "notenwart")))
+	       (:file "handlers")
+	       (:file "server")))
 
 (defpackage #:notenwart-configuration
   (:export #:*notenwart-system-path*))
