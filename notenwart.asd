@@ -8,8 +8,7 @@
   :depends-on (#:HUNCHENTOOT #:WM-SQLITE)
   :components ((:file "package")
 	       (:file "schemas")
-	       #+nil (:file "topological-sort")
-               (:file "notenwart")))
+           (:file "notenwart")))
 
 (defpackage #:notenwart-configuration
   (:export #:*notenwart-system-path*))
