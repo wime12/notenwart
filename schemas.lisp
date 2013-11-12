@@ -192,7 +192,7 @@
     :column-name "other_details"
     :accessor details :initarg :details
     :initform nil))
-  (:foreign-keys (music-genre genre-code genre-code))
+  (:foreign-keys (music-genre genre-code id))
   (:table-name "sheet_music")
   (:metaclass sqlite-persistent-class))
 
@@ -221,9 +221,10 @@
 	    (id instance) (library-id instance) (sheet-music-id instance))))
 
 (defclass music-genre (autoincrement-mixin)
-  ((genre-code
+  ((id
     :persistence :integer :primary-key :autoincrement
-    :accessor genre-code :initarg :genre-code
+    :accessor id :initarg :id
+    :column-name "genre_code"
     :initform nil)
    (name
     :persistence :text
