@@ -19,6 +19,10 @@
 			 :class "logo")
 		   (:span :class "strapline"
 			  "A system to manage sheet music"))
+	     (:div :id "toolbar"
+		   ((:p :class "toolbar")
+		    "[" (:a :href "/notenwart/new-composer" "New Composer") "] "
+		    "[" (:a :href "/notenwart/list-composers" "Composers") "] "))
 	     ,@body))))
 
 (define-easy-handler (new-composer :uri "/notenwart/new-composer") ()
@@ -43,3 +47,4 @@
 		    :last-name last-name
 		    :details (if (string= details "") nil details))))
   nil)
+
