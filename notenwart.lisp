@@ -8,9 +8,8 @@
 (defclass autoincrement-mixin ()
   ())
 
-(defmethod insert-record :after ((instance autoincrement-mixin)
-				 &optional (database *default-database*))
-  (declare (ignore database))
+(defmethod insert-record :after ((database database)
+				 (instance autoincrement-mixin))
   (unless (id instance)
     (setf (id instance) (last-insert-rowid))))
 

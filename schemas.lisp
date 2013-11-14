@@ -21,7 +21,7 @@
     :initform nil))
   (:table-name "libraries")
   (:foreign-keys (address address-id id))
-  (:metaclass sqlite-persistent-class))
+  (:metaclass sqlite-caching-persistent-class))
 
 (defmethod print-object ((instance library) stream)
   (print-unreadable-object (instance stream :type t :identity t)
@@ -67,7 +67,7 @@
     :initform nil))
   (:table-name "members")
   (:foreign-keys (address address-id id))
-  (:metaclass sqlite-persistent-class))
+  (:metaclass sqlite-caching-persistent-class))
 
 (defmethod print-object ((instance user) stream)
   (print-unreadable-object (instance stream :type t :identity t)
@@ -114,7 +114,7 @@
     :column-name "other_address_details"
     :accessor details :initarg :details
     :initform nil))
-  (:metaclass sqlite-persistent-class)
+  (:metaclass sqlite-caching-persistent-class)
   (:table-name "addresses"))
 
 (defmethod print-object ((instance address) stream)
@@ -152,7 +152,7 @@
   (:foreign-keys (user user-id id)
 		 (sheet-music sheet-music-id id))
   (:table-name "member_requests")
-  (:metaclass sqlite-persistent-class))
+  (:metaclass sqlite-caching-persistent-class))
 
 (defmethod print-object ((instance user-request) stream)
   (print-unreadable-object (instance stream :type t :identity t)
@@ -194,7 +194,7 @@
     :initform nil))
   (:foreign-keys (music-genre genre-code id))
   (:table-name "sheet_music")
-  (:metaclass sqlite-persistent-class))
+  (:metaclass sqlite-caching-persistent-class))
 
 (defmethod print-object ((instance sheet-music) stream)
   (print-unreadable-object (instance stream :type t :identity t)
@@ -230,7 +230,7 @@
     :persistence :text
     :column-name "genre_name"
     :accessor name :initarg :name))
-  (:metaclass sqlite-persistent-class)
+  (:metaclass sqlite-caching-persistent-class)
   (:table-name "music_genres"))
 
 (defmethod print-object ((instance music-genre) stream)
@@ -265,7 +265,7 @@
     :column-name "other_details"
     :accessor details :initarg :details
     :initform nil))
-  (:metaclass sqlite-persistent-class)
+  (:metaclass sqlite-caching-persistent-class)
   (:table-name "events"))
 
 (defmethod print-object ((instance event) stream)
@@ -311,7 +311,7 @@
     :initform nil))
   (:foreign-keys (user user-id id)
 		 (sheet-music sheet-music-id id))
-  (:metaclass sqlite-persistent-class))
+  (:metaclass sqlite-caching-persistent-class))
 
 (defmethod print-object ((instance music-checked-out) stream)
   (print-unreadable-object (instance stream :type t :identity t)
@@ -329,7 +329,7 @@
     :accessor sheet-music-id :initarg :sheet-music-id))
   (:foreign-keys (composer composer-id id)
 		 (sheet-music sheet-music-id id))
-  (:metaclass sqlite-persistent-class))
+  (:metaclass sqlite-caching-persistent-class))
 
 (defmethod print-object ((instance music-by-composer) stream)
   (print-unreadable-object (instance stream :type t :identity t)
@@ -354,7 +354,7 @@
     :column-name "other_details"
     :accessor details :initarg :details
     :initform nil))
-  (:metaclass sqlite-persistent-class)
+  (:metaclass sqlite-caching-persistent-class)
   (:table-name "composers"))
 
 (defmethod print-object ((instance composer) stream)
