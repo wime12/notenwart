@@ -8,10 +8,12 @@
 (defclass autoincrement-mixin ()
   ())
 
-(defmethod insert-record :after ((database database)
-				 (instance autoincrement-mixin))
+(defmethod insert-record ((database database)
+			  (instance autoincrement-mixin))
+  (call-next-method)
   (unless (id instance)
-    (setf (id instance) (last-insert-rowid))))
+    (setf (id instance) (last-insert-rowid database)))
+  instance)
 
 (defclass notenwart-database (statement-caching-mixin database)
   ())
