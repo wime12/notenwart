@@ -23,7 +23,7 @@
   (declare (ignore initargs))
   (exec (prepare instance "pragma foreign_keys = ON")))
 
-(defmethod open-notenwart-database ()
+(defun open-notenwart-database ()
   (open-database *notenwart* :class 'notenwart-database))
 
 (defmacro with-notenwart (&body body)

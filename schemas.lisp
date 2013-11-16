@@ -1,5 +1,48 @@
 (in-package #:notenwart)
 
+(defclass address (autoincrement-mixin)
+  ((id
+    :persistence :integer :primary-key :autoincrement
+    :column-name "address_id"
+    :accessor id :initarg :id
+    :initform nil)
+   (line-1
+    :persistence :text
+    :column-name "line_1_number_building"
+    :accessor line-1 :initarg :line-1
+    :initform nil)
+   (street-and-number
+    :persistence :text
+    :column-name "line_2_number_street"
+    :accessor street-and-number :initarg :street-and-number)
+   (line-3
+    :persistence :text
+    :column-name "line_3_number_area_locality"
+    :accessor line-3 :initarg :line-3
+    :initform nil)
+   (city
+    :persistence :text
+    :accessor city :initarg :city)
+   (zip
+    :persistence :text
+    :column-name "zip_postcode"
+    :accessor zip :initarg :zip)
+   (state-province-county
+    :persistence :text
+    :accessor state-province-county :initarg :state-province-county
+    :initform nil)
+   (country
+    :persistence :text
+    :accessor country :initarg :country
+    :initform nil)
+   (details
+    :persistence :text
+    :column-name "other_address_details"
+    :accessor details :initarg :details
+    :initform nil))
+  (:metaclass sqlite-caching-persistent-class)
+  (:table-name "addresses"))
+
 (defclass library (autoincrement-mixin)
   ((id
     :persistence :integer :primary-key :autoincrement
@@ -26,6 +69,14 @@
 (defmethod print-object ((instance library) stream)
   (print-unreadable-object (instance stream :type t :identity t)
     (format stream "~A ~A" (id instance) (name instance))))
+
+(defmethod print-object ((instance address) stream)
+  (print-unreadable-object (instance stream :type t :identity t)
+    (format stream "~A ~A, ~A ~A"
+	    (id instance)
+	    (street-and-number instance)
+	    (zip instance)
+	    (city instance))))
 
 (defclass user (autoincrement-mixin)
   ((id
@@ -74,92 +125,22 @@
     (format stream "~A ~A ~A"
 	    (id instance) (first-name instance) (last-name instance))))
 
-(defclass address (autoincrement-mixin)
+(defclass music-genre (autoincrement-mixin)
   ((id
     :persistence :integer :primary-key :autoincrement
-    :column-name "address_id"
     :accessor id :initarg :id
+    :column-name "genre_code"
     :initform nil)
-   (line-1
+   (name
     :persistence :text
-    :column-name "line_1_number_building"
-    :accessor line-1 :initarg :line-1
-    :initform nil)
-   (street-and-number
-    :persistence :text
-    :column-name "line_2_number_street"
-    :accessor street-and-number :initarg :street-and-number)
-   (line-3
-    :persistence :text
-    :column-name "line_3_number_area_locality"
-    :accessor line-3 :initarg :line-3
-    :initform nil)
-   (city
-    :persistence :text
-    :accessor city :initarg :city)
-   (zip
-    :persistence :text
-    :column-name "zip_postcode"
-    :accessor zip :initarg :zip)
-   (state-province-county
-    :persistence :text
-    :accessor state-province-county :initarg :state-province-county
-    :initform nil)
-   (country
-    :persistence :text
-    :accessor country :initarg :country
-    :initform nil)
-   (details
-    :persistence :text
-    :column-name "other_address_details"
-    :accessor details :initarg :details
-    :initform nil))
+    :column-name "genre_name"
+    :accessor name :initarg :name))
   (:metaclass sqlite-caching-persistent-class)
-  (:table-name "addresses"))
+  (:table-name "music_genres"))
 
-(defmethod print-object ((instance address) stream)
+(defmethod print-object ((instance music-genre) stream)
   (print-unreadable-object (instance stream :type t :identity t)
-    (format stream "~A ~A, ~A ~A"
-	    (id instance)
-	    (street-and-number instance)
-	    (zip instance)
-	    (city instance))))
-
-(defclass user-request (autoincrement-mixin)
-  ((id
-    :persistence :integer :primary-key :autoincrement
-    :column-name "request_id"
-    :accessor id :initarg :id
-    :initform nil)
-   (user-id
-    :persistence :integer
-    :accessor user-id :initarg :user-id)
-   (sheet-music-id
-    :persistence :integer
-    :accessor sheet-music-id :initarg :sheet-music-id)
-   (date-requested
-    :persistence :text
-    :accessor date-requested :initarg :date-requested)
-   (date-located
-    :persistence :text
-    :accessor date-located :initarg :date-located
-    :initform nil)
-   (details
-    :persistence :text
-    :column-name "other_request_details"
-    :accessor details :initarg :details
-    :initform nil))
-  (:foreign-keys (user user-id id)
-		 (sheet-music sheet-music-id id))
-  (:table-name "member_requests")
-  (:metaclass sqlite-caching-persistent-class))
-
-(defmethod print-object ((instance user-request) stream)
-  (print-unreadable-object (instance stream :type t :identity t)
-    (format stream "~A :user-id ~A :sheet-music-id ~A"
-	    (id instance)
-	    (user-id instance)
-	    (sheet-music-id instance))))
+    (format stream "~A ~A" (id instance) (name instance))))
 
 (defclass sheet-music (autoincrement-mixin)
   ((id
@@ -200,6 +181,42 @@
   (print-unreadable-object (instance stream :type t :identity t)
     (format stream "~A ~A" (id instance) (title instance))))
 
+(defclass user-request (autoincrement-mixin)
+  ((id
+    :persistence :integer :primary-key :autoincrement
+    :column-name "request_id"
+    :accessor id :initarg :id
+    :initform nil)
+   (user-id
+    :persistence :integer
+    :accessor user-id :initarg :user-id)
+   (sheet-music-id
+    :persistence :integer
+    :accessor sheet-music-id :initarg :sheet-music-id)
+   (date-requested
+    :persistence :text
+    :accessor date-requested :initarg :date-requested)
+   (date-located
+    :persistence :text
+    :accessor date-located :initarg :date-located
+    :initform nil)
+   (details
+    :persistence :text
+    :column-name "other_request_details"
+    :accessor details :initarg :details
+    :initform nil))
+  (:foreign-keys (user user-id id)
+		 (sheet-music sheet-music-id id))
+  (:table-name "member_requests")
+  (:metaclass sqlite-caching-persistent-class))
+
+(defmethod print-object ((instance user-request) stream)
+  (print-unreadable-object (instance stream :type t :identity t)
+    (format stream "~A :user-id ~A :sheet-music-id ~A"
+	    (id instance)
+	    (user-id instance)
+	    (sheet-music-id instance))))
+
 (defclass music-at-libraries ()
   ((sheet-music-id
     :persistence :integer
@@ -219,23 +236,6 @@
   (print-unreadable-object (instance stream :type t :identity t)
     (format stream "~A :library-id ~A :sheet-music-id ~A"
 	    (id instance) (library-id instance) (sheet-music-id instance))))
-
-(defclass music-genre (autoincrement-mixin)
-  ((id
-    :persistence :integer :primary-key :autoincrement
-    :accessor id :initarg :id
-    :column-name "genre_code"
-    :initform nil)
-   (name
-    :persistence :text
-    :column-name "genre_name"
-    :accessor name :initarg :name))
-  (:metaclass sqlite-caching-persistent-class)
-  (:table-name "music_genres"))
-
-(defmethod print-object ((instance music-genre) stream)
-  (print-unreadable-object (instance stream :type t :identity t)
-    (format stream "~A ~A" (id instance) (name instance))))
 
 (defclass event (autoincrement-mixin)
   ((id
@@ -320,23 +320,6 @@
 	    (sheet-music-id instance)
 	    (datetime-checked-out instance))))
 
-(defclass music-by-composer ()
-  ((composer-id
-    :persistence :integer :primary-key t
-    :accessor composer-id :initarg :composer-id)
-   (sheet-music-id
-    :persistence :integer :primary-key t
-    :accessor sheet-music-id :initarg :sheet-music-id))
-  (:foreign-keys (composer composer-id id)
-		 (sheet-music sheet-music-id id))
-  (:metaclass sqlite-caching-persistent-class))
-
-(defmethod print-object ((instance music-by-composer) stream)
-  (print-unreadable-object (instance stream :type t :identity t)
-    (format stream ":composer-id ~A :sheet-music-id ~A"
-	    (composer-id instance)
-	    (sheet-music-id instance))))
-
 (defclass composer (autoincrement-mixin)
   ((id
     :persistence :integer :primary-key :autoincrement
@@ -363,6 +346,23 @@
 	    (id instance)
 	    (first-name instance)
 	    (last-name instance))))
+
+(defclass music-by-composer ()
+  ((composer-id
+    :persistence :integer :primary-key t
+    :accessor composer-id :initarg :composer-id)
+   (sheet-music-id
+    :persistence :integer :primary-key t
+    :accessor sheet-music-id :initarg :sheet-music-id))
+  (:foreign-keys (composer composer-id id)
+		 (sheet-music sheet-music-id id))
+  (:metaclass sqlite-caching-persistent-class))
+
+(defmethod print-object ((instance music-by-composer) stream)
+  (print-unreadable-object (instance stream :type t :identity t)
+    (format stream ":composer-id ~A :sheet-music-id ~A"
+	    (composer-id instance)
+	    (sheet-music-id instance))))
 
 (defvar *notenwart-persistent-class-names*
   '(library user address user-request sheet-music music-at-libraries
