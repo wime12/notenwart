@@ -38,13 +38,3 @@
 		    (:input :type "text" :name "details" :class "txt"))
 		(:p (:input :type "submit" :value "Add" :class "btn"))))))
 
-(define-easy-handler (add-composer :uri "/notenwart/add-composer")
-    (first-name last-name details)
-  (with-notenwart
-    (insert-record
-     (make-instance 'composer
-		    :first-name first-name
-		    :last-name last-name
-		    :details (if (string= details "") nil details))))
-  nil)
-

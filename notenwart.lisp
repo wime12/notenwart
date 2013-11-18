@@ -5,16 +5,6 @@
 (defvar *notenwart*
   (merge-pathnames "data/notenwart.db" *notenwart-system-path*))
 
-(defclass autoincrement-mixin ()
-  ())
-
-(defmethod insert-record ((database database)
-			  (instance autoincrement-mixin))
-  (call-next-method)
-  (unless (id instance)
-    (setf (id instance) (last-insert-rowid database)))
-  instance)
-
 (defclass notenwart-database (statement-caching-mixin database)
   ())
 
@@ -30,8 +20,4 @@
   `(with-open-database (*default-database* *notenwart*
 					   :class 'notenwart-database)
      ,@body))
-
-
-
-;;; "notenwart" goes here. Hacks and glory await!
 
