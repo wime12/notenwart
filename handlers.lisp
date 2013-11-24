@@ -25,16 +25,39 @@
 		    "[" (:a :href "/notenwart/list-composers" "Composers") "] "))
 	     ,@body))))
 
+(define-easy-handler (notenwart :uri "/notenwart") ()
+  (standard-page ("Main Page")))
+
 (define-easy-handler (new-composer :uri "/notenwart/new-composer") ()
   "Page to create an new composer and put her into the database."
   (standard-page ("Add a composer")
-    (:h1 "Add a new composer"
-	 (:form :action "/notenwart/add-composer" :method "post"
+    (:h1 "Add a new composer")
+    (:form :action "/notenwart/add-composer" :method "post"
 		(:p "First name"
 		    (:input :type "text" :name "first-name" :class "txt"))
 		(:p "Last name"
 		    (:input :type "text" :name "last-name" :class "txt"))
 		(:p "Details"
 		    (:input :type "text" :name "details" :class "txt"))
-		(:p (:input :type "submit" :value "Add" :class "btn"))))))
+		(:p (:input :type "submit" :value "Add" :class "btn")))))
 
+(define-easy-handler (add-composer :uri "/notenwart/add-composer")
+    (first-name last-name details)
+  (with-notenwart (insert-record t (make-instance 'composer
+						  :first-name first-name
+						  :last-name last-name
+						  :details details)))
+  (redirect "/notenwart/list-composers"))
+
+(define-easy-handler (list-composers :uri "/notenwart/list-composers") ()
+  (standard-page ("All Composers")
+    (:h1 "All Composers")
+    (:table
+     (:tr (:th "First name") (:th "Last name") (:th "Details"))
+     (with-notenwart
+       (with-open-query (q 'composer)
+	 (do ((composer (read-row q nil) (read-row q nil)))
+	     (composer)
+	   (htm (:tr (:td (first-name composer)
+			  (last-name composer)
+			  (details composer))))))))))
