@@ -101,7 +101,4 @@
 			    (:td (str (details user)))))))))))
 
 
-(defun start-server ()
-  (start *server*)
-  (push (create-static-file-dispatcher-and-handler "/jquery.js" *jquery-path*)
-	*dispatch-table*))
+
