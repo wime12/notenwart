@@ -1,5 +1,6 @@
 ;;;; package.lisp.newest
 
 (defpackage #:notenwart
-  (:use #:cl #:hunchentoot #:wm-sqlite #:notenwart-configuration #:cl-who))
+  (:use #:cl #:hunchentoot #:wm-sqlite #:notenwart-configuration #:cl-who
+	#:parenscript))
 

@@ -5,7 +5,7 @@
   :description "Describe notenwart here"
   :author "Your Name <your.name@example.com>"
   :license "Specify license here"
-  :depends-on (#:HUNCHENTOOT #:WM-SQLITE #:cl-who)
+  :depends-on (#:hunchentoot #:wm-sqlite #:cl-who #:parenscript)
   :components ((:file "package")
 	       (:file "notenwart")
 	       (:file "schemas")
